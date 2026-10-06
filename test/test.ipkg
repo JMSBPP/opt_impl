@@ -1,0 +1,9 @@
+package opt_impl-test
+version = 0.1.0
+authors = "JMSBPP"
+
+depends = opt_impl
+
+main = Main
+executable = "opt_impl-test"
+sourcedir = "src"

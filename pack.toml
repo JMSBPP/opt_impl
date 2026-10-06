@@ -1,0 +1,10 @@
+[custom.all.opt_impl]
+type = "local"
+path = "."
+ipkg = "opt_impl.ipkg"
+test = "test/test.ipkg"
+
+[custom.all.opt_impl-test]
+type = "local"
+path = "test"
+ipkg = "test.ipkg"

@@ -7,13 +7,20 @@
 
 `opt_impl` will use **Idris 2** as the primary implementation language.
 
+`opt_impl` will use **Pack** as the Idris package manager and build/test entrypoint. The canonical local commands are:
+
+```sh
+pack typecheck opt_impl
+pack test opt_impl
+```
+
 The project may still use:
 
 - **Agda** for optional formal specifications/proofs of critical algorithms.
 - **Bend2** for optional experimental/offline accelerators.
 - Small shell scripts or generated bindings for packaging and runtime integration.
 
-But the daemon, library API, CLI, storage model, tree/view algorithms, and integration surface should be designed around Idris 2 first.
+But the daemon, library API, CLI, storage model, tree/view algorithms, and integration surface should be designed around Idris 2 first, with package boundaries managed through `pack.toml` and `.ipkg` files.
 
 ## Rationale
 
@@ -75,6 +82,25 @@ src/OptImpl/Model/
 
 External inputs should enter through validation functions that construct typed core values only after proving or checking their constraints.
 
+## Package Management
+
+Pack is locked as the package manager because it gives the Idris project a reproducible package-set workflow and a single command surface for typechecking, testing, dependency installation, and future executable builds.
+
+Repository package files:
+
+```text
+pack.toml          -- local Pack package configuration
+opt_impl.ipkg      -- library package definition
+test/test.ipkg     -- test executable package definition
+```
+
+Rules:
+
+- Add Idris dependencies through Pack/package-set compatible `.ipkg` declarations.
+- Prefer `pack typecheck opt_impl` over raw `idris2 --build` for project checks.
+- Prefer `pack test opt_impl` for test execution.
+- Keep generated Pack/build artifacts out of version control.
+
 ## Non-Negotiables
 
 - Do not rewrite the core in an untyped scripting language for convenience.
@@ -82,6 +108,7 @@ External inputs should enter through validation functions that construct typed c
 - Do not make Agda the only executable implementation path.
 - Do not hide invalid tree/view states behind comments; represent them in types where practical.
 - If Idris lacks an ecosystem component, prefer a small FFI/binding layer over weakening the core model.
+- Do not introduce another Idris package manager/build convention unless this decision is explicitly revisited.
 
 ## Revisit Criteria
 

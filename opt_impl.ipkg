@@ -1,0 +1,12 @@
+package opt_impl
+version = 0.1.0
+authors = "JMSBPP"
+brief = "Standalone daemon/library for OptChat-style durable memory across AI agent sessions"
+readme = "README.md"
+
+-- Keep the package intentionally small while the algebra-driven specification
+-- stabilizes. Add modules here as they move from .spec/ into Idris.
+modules = OptImpl
+        , OptImpl.Core.Types
+
+sourcedir = "src"

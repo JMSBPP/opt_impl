@@ -8,3 +8,7 @@ chat/
 .env
 .env.*
 !.env.example
+
+# Idris / Pack build outputs
+build/
+test/build/

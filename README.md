@@ -11,3 +11,12 @@ Primary references:
 - TypeSafe AI, “Introducing System One Models & Jev”
 
 See `.spec/mission_statement.md` for the project mission and initial design stance.
+
+## Idris / Pack
+
+This repository uses Idris 2 with [Pack](https://github.com/stefan-hoeck/idris2-pack) as the package manager.
+
+```sh
+pack typecheck opt_impl
+pack test opt_impl
+```
