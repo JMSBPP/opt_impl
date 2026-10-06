@@ -20,6 +20,14 @@ The technical specification must define the core system as a set of small algebr
 
 Implementation in Idris 2 should follow the spec, not lead it.
 
+Development is also locked as type-driven and test-driven from per-type algebra specs. Each important type gets a dedicated algebra-only file at:
+
+```text
+.spec/SomeType.spec/SomeType.md
+```
+
+See `.spec/development_method.md` for the detailed convention.
+
 ## What This Means
 
 Before writing daemon/storage/model code, we first describe the behavior of the system in terms of algebraic interfaces and laws. For each subsystem, the spec must answer:
@@ -49,21 +57,25 @@ Before writing daemon/storage/model code, we first describe the behavior of the 
 
 Every major feature should follow this order:
 
-1. **Algebra sketch**
-   - Define types, operations, observations, and laws in `.spec/technical_spec.md`.
+1. **System algebra sketch**
+   - Define the subsystem, operations, observations, and laws in `.spec/technical_spec.md`.
 
-2. **Initial encoding**
+2. **Per-type algebra specs**
+   - For each important type, create or update `.spec/SomeType.spec/SomeType.md`.
+   - Keep these files algebra-only: constructors, observations, operations, laws, invalid states, and test/proof obligations.
+
+3. **Property tests / proof obligations**
+   - Convert the per-type laws into Idris properties, proofs, or executable tests.
+
+4. **Initial encoding**
    - Implement the simplest Idris representation that makes the laws explicit,
      even if inefficient.
 
-3. **Property tests / proof obligations**
-   - Convert the laws into Idris properties, proofs, or executable tests.
-
-4. **Efficient implementation**
+5. **Efficient implementation**
    - Replace naive structures with durable/indexed versions while preserving the
      algebraic interface.
 
-5. **Refinement note**
+6. **Refinement note**
    - Document any law changes, performance compromises, or explicit deviations.
 
 ## Required Algebra Sections
