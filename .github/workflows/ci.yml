@@ -1,0 +1,55 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chezscheme build-essential git curl
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Cache Pack installation
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.config/pack
+            ~/.local/state/pack
+            ~/.cache/pack
+            ~/.local/bin/pack
+            ~/.local/bin/idris2
+          key: ${{ runner.os }}-pack-${{ hashFiles('pack.toml', 'opt_impl.ipkg', 'test/test.ipkg') }}
+          restore-keys: |
+            ${{ runner.os }}-pack-
+
+      - name: Install Pack and Idris 2
+        run: |
+          if ! command -v pack >/dev/null 2>&1; then
+            curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash -o /tmp/install-pack.bash
+            printf 'chezscheme\n' | bash /tmp/install-pack.bash
+          fi
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Verify
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          just verify

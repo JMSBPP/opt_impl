@@ -58,7 +58,13 @@ For each type:
    - inspect hole contexts and refine constructors/functions step by step;
    - prefer total functions and explicit impossible cases;
    - use compiler/type errors as design feedback, not merely as bugs to fix.
-4. Run:
+4. Run the canonical verification gate:
+
+   ```sh
+   just verify
+   ```
+
+   This expands to:
 
    ```sh
    pack typecheck opt_impl

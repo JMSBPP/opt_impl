@@ -20,3 +20,9 @@ This repository uses Idris 2 with [Pack](https://github.com/stefan-hoeck/idris2-
 pack typecheck opt_impl
 pack test opt_impl
 ```
+
+The canonical verification gate is:
+
+```sh
+just verify
+```
