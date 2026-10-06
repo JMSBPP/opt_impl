@@ -1,0 +1,10 @@
+# Runtime state
+.opt_impl/
+chat/
+*.log
+
+# OS/editor
+.DS_Store
+.env
+.env.*
+!.env.example
